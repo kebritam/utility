@@ -4,7 +4,9 @@
 
 namespace kbt
 {
-#define DEFER(func) auto DEFER_VAR_NAME = kbt::DeferDeduceHelper([&] { func })
+#define DEFER auto DEFER_VAR_NAME = kbt::DeferOperatorOverloadingHelper{ } << [&]
+
+    struct DeferOperatorOverloadingHelper { };
 
     template <class F>
     class DeferAction
@@ -29,8 +31,8 @@ namespace kbt
     };
 
     template <class F>
-    [[nodiscard]] auto DeferDeduceHelper(F&& _f) noexcept
+    DeferAction<F> operator<<(DeferOperatorOverloadingHelper, F&& _f)
     {
-        return DeferAction<F>{std::forward<F>(_f)};
+        return DeferAction<F>(std::forward<F>(_f));
     }
 }
