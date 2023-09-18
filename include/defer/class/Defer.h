@@ -1,12 +1,12 @@
 #pragma once
 
+#include <utility>
+
 #include "defer/DeferUtil.h"
 
 namespace kbt
 {
 #define DEFER auto DEFER_VAR_NAME = kbt::DeferOperatorOverloadingHelper{ } << [&]
-
-    struct DeferOperatorOverloadingHelper { };
 
     template <class F>
     class DeferAction
@@ -24,7 +24,7 @@ namespace kbt
     		m_func();
         }
 
-        DeferAction(DeferAction&& _other) = delete;
+        DeferAction(DeferAction&&) = delete;
         void operator=(DeferAction&&) = delete;
         DeferAction(const DeferAction&) = delete;
         void operator=(const DeferAction&) = delete;
@@ -33,6 +33,6 @@ namespace kbt
     template <class F>
     DeferAction<F> operator<<(DeferOperatorOverloadingHelper, F&& _f)
     {
-        return DeferAction<F>(std::forward<F>(_f));
+        return DeferAction<F>(std::forward<std::decay_t<F>>(_f));
     }
 }
