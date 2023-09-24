@@ -25,6 +25,44 @@ DEFER
 printf("something else\n");
 ```
 
+```
+const int ten = 10;
+const std::string str("string test");
+kbt::Either<std::string, int> either1(10);
+kbt::Either<std::string, int> either2(ten);
+kbt::Either<std::string, int> either3("string test");
+kbt::Either<std::string, int> either4(str);
+
+/* With no return value */
+either1.Match(
+	[](const std::string& _str) { std::cout << "the string: " << _str << std::endl; },
+	[](const int _number) { std::cout << "the number: " << _number << std::endl; });
+either2.Match(
+	[](const std::string& _str) { std::cout << "the string: " << _str << std::endl; },
+	[](const int _number) { std::cout << "the number: " << _number << std::endl; });
+either3.Match(
+	[](const std::string& _str) { std::cout << "the string: " << _str << std::endl; },
+	[](const int _number) { std::cout << "the number: " << _number << std::endl; });
+either4.Match(
+	[](const std::string& _str) { std::cout << "the string: " << _str << std::endl; },
+	[](const int _number) { std::cout << "the number: " << _number << std::endl; });
+
+/* With return value */
+int res1 = either1.Match<int>(
+	[](const std::string& _str) { std::cout << "the string: " << _str << std::endl; return 1; },
+	[](const int _number) { std::cout << "the number: " << _number << std::endl; return 2; });
+std::string res2 = either2.Match<std::string>(
+	[](const std::string& _str) { std::cout << "the string: " << _str << std::endl; return "ret1"; },
+	[](const int _number) { std::cout << "the number: " << _number << std::endl; return "ret2"; });
+double res3 = either3.Match<double>(
+	[](const std::string& _str) { std::cout << "the string: " << _str << std::endl; return 1.; },
+	[](const int _number) { std::cout << "the number: " << _number << std::endl; return 2.; });
+bool res4 = either4.Match<bool>(
+	[](const std::string& _str) { std::cout << "the string: " << _str << std::endl; return true; },
+	[](const int _number) { std::cout << "the number: " << _number << std::endl; return false; });
+
+```
+
 ## Contributing
 
 1. Fork it (<https://github.com/kebritam/utility>)
