@@ -13,15 +13,15 @@ namespace kbt
 	public:
 
 		explicit Either(const Left& _left)
+			: m_variant(_left)
+			, m_isLeft(true)
 		{
-			m_variant = _left;
-			m_isLeft = true;
 		}
 
 		explicit Either(const Right& _right)
+			: m_variant(_right)
+			, m_isLeft(false)
 		{
-			m_variant = _right;
-			m_isLeft = false;
 		}
 
 		template <typename LF, typename RF>
