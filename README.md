@@ -25,7 +25,7 @@ DEFER
 printf("something else\n");
 ```
 
-```
+```c++
 const int ten = 10;
 const std::string str("string test");
 kbt::Either<std::string, int> either1(10);
@@ -61,6 +61,32 @@ bool res4 = either4.Match<bool>(
 	[](const std::string& _str) { std::cout << "the string: " << _str << std::endl; return true; },
 	[](const int _number) { std::cout << "the number: " << _number << std::endl; return false; });
 
+```
+
+```c++
+kbt::Optional<int> a;
+kbt::Optional<int> b(42);
+std::cout << *b << ", " << b.Value() << std::endl;
+	
+a = b;
+std::cout << *a << ", " << a.Value() << std::endl;
+
+kbt::Optional<int> d = kbt::Optional<int>(123);
+std::cout << *d << ", " << d.Value() << std::endl;
+
+kbt::Optional<int> c;
+c = 17;
+std::cout << *c << ", " << c.Value() << std::endl;
+c.Reset();
+a = c;
+try
+{
+	std::cout << a.Value() << std::endl;
+}
+catch (const kbt::OptionalAccessViolation& oav)
+{
+	std::cout << "exception happened as expected: " << oav.what() << std::endl;
+}
 ```
 
 ## Contributing
