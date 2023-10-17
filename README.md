@@ -87,6 +87,11 @@ catch (const kbt::OptionalAccessViolation& oav)
 {
 	std::cout << "exception happened as expected: " << oav.what() << std::endl;
 }
+
+kbt::Optional<int> opt1(5);
+kbt::Optional<int> opt2(opt1);
+kbt::Optional<int> opt3(std::move(opt1));
+std::cout << *opt1 << ", " << *opt2 << ", " << *opt3 << std::endl;
 ```
 
 ## Contributing

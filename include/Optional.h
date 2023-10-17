@@ -32,7 +32,7 @@ namespace kbt
 		{
 			return reinterpret_cast<const T*>(m_value);
 		}
-		T* data() 
+		T* data()
 		{
 			return reinterpret_cast<T*>(m_value);
 		}
@@ -91,7 +91,7 @@ namespace kbt
 		{
 			if (m_hasValue)
 			{
-				construct(_other.m_value);
+				construct(*_other.data());
 			}
 		}
 		Optional& operator=(const Optional& _other)
@@ -115,7 +115,7 @@ namespace kbt
 		{
 			if (m_hasValue)
 			{
-				construct(std::move(_other.m_value));
+				construct(std::move(*_other.data()));
 			}
 		}
 		Optional& operator=(Optional&& _other) noexcept
@@ -136,7 +136,7 @@ namespace kbt
 
 		explicit operator bool() const
 		{
-			return IsValid();
+			return m_hasValue;
 		}
 
 		bool IsValid() const
@@ -152,7 +152,7 @@ namespace kbt
 			}
 			return *data();
 		}
-		T& Value() 
+		T& Value()
 		{
 			if (!m_hasValue)
 			{
@@ -190,19 +190,15 @@ namespace kbt
 
 		const T& ValueOr(const T& _defaultValue) const
 		{
-			if (!IsValid())
-			{
+			if (!m_hasValue)
 				return _defaultValue;
-			}
 			return *data();
 		}
 
 		T& ValueOr(const T& _defaultValue)
 		{
-			if (!IsValid())
-			{
+			if (!m_hasValue)
 				return _defaultValue;
-			}
 			return *data();
 		}
 
